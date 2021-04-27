@@ -30,6 +30,9 @@ export default function App() {
     ]);
     setNewTask("");
   };
+  const deleteTask = (key) => {
+    setAllTask ((currentTask) => currentTask.filter(task => task.key !== key))
+  }
   const toggleDone = (key) => {
     setAllTask((currentTask) =>
       currentTask.map((task) => {
@@ -46,7 +49,7 @@ export default function App() {
       <FlatList
         data={allTask}
         renderItem={({ item }) => (
-          <Task title={item.task} id={item.key} toggleDone={toggleDone} isDone={item.done}/>
+          <Task title={item.task} id={item.key} toggleDone={toggleDone} isDone={item.done} deleteTask={deleteTask}/>
         )}
       ></FlatList>
       <View style={styles.inputContainer}>

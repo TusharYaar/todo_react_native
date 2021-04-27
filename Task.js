@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity,Button } from "react-native";
-const Task = ({ id, title, toggleDone, isDone }) => {
+const Task = ({ id, title, toggleDone, isDone, deleteTask }) => {
   const styles = StyleSheet.create({
     task: {
       paddingVertical: 5,
@@ -24,7 +24,7 @@ const Task = ({ id, title, toggleDone, isDone }) => {
     >
       <View style={(styles.task)}>
         <Text style={(styles.taskText)}>{title}</Text>
-        <Button title="Delete" color="#e63946"/>
+        <Button title="Delete" color="#e63946" onPress={ () => deleteTask(id)}/>
       </View>
     </TouchableOpacity>
   );
