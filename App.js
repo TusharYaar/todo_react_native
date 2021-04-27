@@ -1,33 +1,96 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  FlatList,
+} from "react-native";
+import Task from "./Task";
+
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 export default function App() {
+  const [newTask, setNewTask] = useState("");
+  const [allTask, setAllTask] = useState([]);
+  const newTaskHandler = (text) => {
+    setNewTask(text);
+  };
+  const addNewTaskHandler = () => {
+    setAllTask((currentTask) => [
+      ...currentTask,
+      {
+        key: `${uuidv4()}`,
+        task: newTask,
+        done: false,
+      },
+    ]);
+    setNewTask("");
+  };
+  const toggleDone = (key) => {
+    setAllTask((currentTask) =>
+      currentTask.map((task) => {
+        if (task.key === key) task.done = !task.done;
+        return task
+      }
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.inputContainer}>
-        <TextInput placeholder="enter a task" />
-        <Button title="Add task" />
+        <TextInput
+          placeholder="enter a task"
+          style={styles.inputField}
+          onChangeText={newTaskHandler}
+          value={newTask}
+        />
+        <Button
+          title="Add task"
+          style={styles.addButton}
+          onPress={addNewTaskHandler}
+        />
       </View>
-      <View><Text>This iis s a text</Text></View>
+      <FlatList
+        data={allTask}
+        renderItem={({ item }) => (
+          <Task title={item.task} id={item.key} toggleDone={toggleDone} isDone={item.done}/>
+        )}
+      ></FlatList>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: "#adf",
     paddingVertical: 40,
     paddingHorizontal: 10,
-    flexDirection:"column",
+    flexDirection: "column",
     // alignItems: "flex-start"
-    
   },
   inputContainer: {
     flexDirection: "row",
-    backgroundColor: "#fd34",
     justifyContent: "space-between",
+  },
+  inputField: {
+    flex: 1,
+    marginRight: 10,
+    borderRadius: 5,
+    backgroundColor: "#fff",
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+  },
+  addButton: {
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    borderRadius: 5,
+    backgroundColor: "#13a3e3",
   },
 });
