@@ -43,9 +43,15 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+      <FlatList
+        data={allTask}
+        renderItem={({ item }) => (
+          <Task title={item.task} id={item.key} toggleDone={toggleDone} isDone={item.done}/>
+        )}
+      ></FlatList>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="enter a task"
+          placeholder="Enter a task"
           style={styles.inputField}
           onChangeText={newTaskHandler}
           value={newTask}
@@ -54,14 +60,9 @@ export default function App() {
           title="Add task"
           style={styles.addButton}
           onPress={addNewTaskHandler}
+          color="green"
         />
       </View>
-      <FlatList
-        data={allTask}
-        renderItem={({ item }) => (
-          <Task title={item.task} id={item.key} toggleDone={toggleDone} isDone={item.done}/>
-        )}
-      ></FlatList>
     </View>
   );
 }
@@ -69,28 +70,29 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#adf",
+    backgroundColor: "#14213d",
     paddingVertical: 40,
     paddingHorizontal: 10,
     flexDirection: "column",
-    // alignItems: "flex-start"
   },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+
   },
   inputField: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 40,
     borderRadius: 5,
     backgroundColor: "#fff",
-    paddingVertical: 2,
-    paddingHorizontal: 4,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 20
   },
   addButton: {
     paddingVertical: 2,
     paddingHorizontal: 4,
     borderRadius: 5,
-    backgroundColor: "#13a3e3",
+    fontSize: 20
   },
 });

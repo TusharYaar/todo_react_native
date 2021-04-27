@@ -1,25 +1,33 @@
-import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity} from "react-native";
-const Task = ({id,title,toggleDone,isDone}) => {
-
-    return (
-<TouchableOpacity onPress={() => {toggleDone(id)}}>
-<View style={styles.task,isDone&& styles.done}>
-            <Text>{title}</Text>
-        </View>
-</TouchableOpacity>
-    )
-}
-
-
-const styles = StyleSheet.create({
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity,Button } from "react-native";
+const Task = ({ id, title, toggleDone, isDone }) => {
+  const styles = StyleSheet.create({
     task: {
-        paddingVertical: 3,
-        paddingHorizontal: 6,
-        backgroundColor: "#34E2A1"
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      marginVertical: 20,
+      backgroundColor: isDone ?  "#e5e5e5" : "#fca311",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      borderRadius: 5,
     },
-    done: {
-        backgroundColor: "grey"
+    taskText : {
+        fontSize: 20,
+        textDecorationLine : isDone ? 'line-through' : "none"
     }
-})
+  });
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        toggleDone(id);
+      }}
+    >
+      <View style={(styles.task)}>
+        <Text style={(styles.taskText)}>{title}</Text>
+        <Button title="Delete" color="#e63946"/>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 export default Task;
